@@ -1,4 +1,4 @@
-name := "scala-school-2017-2"
+name := "scala-binary_district"
 
 version := "1.0"
 
