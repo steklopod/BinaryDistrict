@@ -1,5 +1,7 @@
 package wtf.scala.e02
 
+
+import scala.io.Source
 import scala.util.Try
 
 object FileStatistics {
@@ -24,15 +26,37 @@ object FileStatistics {
     * @param fileName - name of input file
     * @return Try of object with numbers' statistics
     */
-  def calculateStatistics(fileName: String): Try[Statistics] = {
-    ???
+  def calculateStatistics(fileName: String): Try[Statistics] = Try {
+//    val ints = for {
+//      line <- Source.fromResource(fileName).getLines().toSeq
+//      intOpt = parseIntOpt(line)
+//      if intOpt.isDefined
+//      int <- intOpt
+//    } yield int
+
+    val ints = Source
+      .fromResource(fileName)
+      .getLines()
+      .map(parseIntOpt)
+      .filter(_.isDefined)
+      .map(_.get)
+      .toSeq
+
+    require(ints.nonEmpty)
+
+    val avg = ints.sum.toDouble / ints.length
+    val variance = 1d / ints.length * ints.map(i => math.pow(i - avg, 2)).sum
+
+    Statistics(avg, variance)
+
   }
 
   /**
     * Parse String into Int
+    *
     * @param str string to parse
     * @return Some[Int] if string can be parsed into Int, None otherwise
     */
-  def parseIntOpt(str: String): Option[Int] = ???
+  def parseIntOpt(str: String): Option[Int] = Try(str.toInt).toOption
 
 }
