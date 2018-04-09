@@ -13,11 +13,12 @@ object IntegerRoot {
     */
   @throws[IllegalArgumentException]
   def calculateRoot(x: Int): Int = {
-    require(x >= 0, "Äîëæíî áûòü ïîëîæèòåëüíûì")
-    val sqrt = math.sqrt(x)
-    if (sqrt % 1 == 0)
-      sqrt.toInt
-    else -1
+    require(x >= 0, "Ð—Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð´Ð¾Ð»Ð¶Ð½Ð¾ Ð±Ñ‹Ñ‚ÑŒ Ð±Ð¾Ð»ÑŒÑˆÐµ 0")
+    (0 to x).find(y => y*y == x).getOrElse(-1)
+
+    // Ð’Ñ‚Ð¾Ñ€Ð¾Ð¹ Ð²Ð°Ñ€Ð¸Ð°Ð½Ñ‚
+    //    (0 to x).filter(y => y*y == x).headOption.getOrElse(-1)
+
   }
 
 }

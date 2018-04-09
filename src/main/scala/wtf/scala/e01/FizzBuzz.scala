@@ -15,23 +15,33 @@ object FizzBuzz {
     */
   @throws[IllegalArgumentException]
   private[e01] def fizzBuzzUntil(n: Int): Seq[String] = {
-    require(n > 0, "Должно быть положительным")
-
-    def devideThree(number: Int) = {
-      if (number % 3 == 0) "fizz"
-      else ""
+    require(n > 0, "Oooo")
+    (0 until n) map {
+      case n if n % 15 == 0 => "fizzbuzz"
+      case n if n % 5 == 0 => "buzz"
+      case n if n % 3 == 0 => "fizz"
+      case n => n.toString
     }
-    def devideFive(number: Int) = {
-      if (number % 5 == 0) "buzz"
-      else ""
-    }
-    var answer = devideThree(n) + devideFive(n)
-    if(answer == "") Array(n.toString)
-    else
-    Array(devideThree(n), devideFive(n))
   }
 
-  def main(args: Array[String]): Unit = {
-    println(fizzBuzzUntil(100).mkString(" "))
-  }
+
+  //    require(n > 0, "пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")
+  //
+  //    def devideThree(number: Int) = {
+  //      if (number % 3 == 0) "fizz"
+  //      else ""
+  //    }
+  //    def devideFive(number: Int) = {
+  //      if (number % 5 == 0) "buzz"
+  //      else ""
+  //    }
+  //    var answer = devideThree(n) + devideFive(n)
+  //    if(answer == "") Array(n.toString)
+  //    else
+  //    Array(devideThree(n), devideFive(n))
+  //  }
+  //
+  //  def main(args: Array[String]): Unit = {
+  //    println(fizzBuzzUntil(100).mkString(" "))
+  //  }
 }

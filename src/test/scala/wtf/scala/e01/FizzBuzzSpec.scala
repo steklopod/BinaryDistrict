@@ -9,6 +9,7 @@ class FizzBuzzSpec extends FlatSpec with Matchers {
     val fizzIndexes = (1 until 100).filter(i => i % 3 == 0 && i % 5 != 0).toSet
     val results = fizzBuzzUntil(100)
     val filteredByFizzIndexesValues = results.zipWithIndex.filter(p => fizzIndexes(p._2)).map(_._1)
+    results should have size(100)
     filteredByFizzIndexesValues.foreach(_ should be ("fizz"))
   }
 
@@ -16,6 +17,7 @@ class FizzBuzzSpec extends FlatSpec with Matchers {
     val buzzIndexes = (1 until 100).filter(i => i % 3 != 0 && i % 5 == 0).toSet
     val results = fizzBuzzUntil(100)
     val filteredByBuzzIndexesValues = results.zipWithIndex.filter(p => buzzIndexes(p._2)).map(_._1)
+    results should have size(100)
     filteredByBuzzIndexesValues.foreach(_ should be ("buzz"))
   }
 
@@ -23,6 +25,7 @@ class FizzBuzzSpec extends FlatSpec with Matchers {
     val fizzbuzzIndexes = (0 until 100).filter(_ % 15 == 0).toSet
     val results = fizzBuzzUntil(100)
     val filteredByFizzbuzzIndexesValues = results.zipWithIndex.filter(p => fizzbuzzIndexes(p._2)).map(_._1)
+    results should have size(100)
     filteredByFizzbuzzIndexesValues.foreach(_ should be ("fizzbuzz"))
   }
 
@@ -41,6 +44,7 @@ class FizzBuzzSpec extends FlatSpec with Matchers {
     val numberIndexes = (0 until 100).filter(i => !(i % 3 == 0 || i % 5 == 0)).toSet
     val results = fizzBuzzUntil(100)
     val filteredByNumberIndexesValues = results.zipWithIndex.filter(p => numberIndexes(p._2))
+    results should have size(100)
     filteredByNumberIndexesValues.foreach {
       case (value, index) =>
         value should be (index.toString())
