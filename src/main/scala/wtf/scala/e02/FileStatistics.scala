@@ -27,20 +27,18 @@ object FileStatistics {
     * @return Try of object with numbers' statistics
     */
   def calculateStatistics(fileName: String): Try[Statistics] = Try {
-//    val ints = for {
-//      line <- Source.fromResource(fileName).getLines().toSeq
-//      intOpt = parseIntOpt(line)
-//      if intOpt.isDefined
-//      int <- intOpt
-//    } yield int
+    val ints = for {
+      line <- Source.fromResource(fileName).getLines().toSeq
+      int <- parseIntOpt(line)
+    } yield int
 
-    val ints = Source
-      .fromResource(fileName)
-      .getLines()
-      .map(parseIntOpt)
-      .filter(_.isDefined)
-      .map(_.get)
-      .toSeq
+//    val ints = Source
+//      .fromResource(fileName)
+//      .getLines()
+//      .map(parseIntOpt)
+//      .filter(_.isDefined)
+//      .map(_.get)
+//      .toSeq
 
     require(ints.nonEmpty)
 
