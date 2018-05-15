@@ -1,6 +1,5 @@
 package wtf.scala.e02
 
-
 import scala.io.Source
 import scala.util.Try
 
@@ -32,13 +31,13 @@ object FileStatistics {
       int <- parseIntOpt(line)
     } yield int
 
-//    val ints = Source
-//      .fromResource(fileName)
-//      .getLines()
-//      .map(parseIntOpt)
-//      .filter(_.isDefined)
-//      .map(_.get)
-//      .toSeq
+    //    val ints = Source
+    //      .fromResource(fileName)
+    //      .getLines()
+    //      .map(parseIntOpt)
+    //      .filter(_.isDefined)
+    //      .map(_.get)
+    //      .toSeq
 
     require(ints.nonEmpty)
 
@@ -46,7 +45,6 @@ object FileStatistics {
     val variance = 1d / ints.length * ints.map(i => math.pow(i - avg, 2)).sum
 
     Statistics(avg, variance)
-
   }
 
   /**

@@ -5,8 +5,8 @@ import org.scalatest.{FunSuite, Matchers}
 class TreeSpec extends FunSuite with Matchers {
 
   test("Node.pickBestNodeForRemoveForMaximizeWeight should pick best node for remove for maximize tree weight") {
-    val testTree = Tree.fillWithRandomInts(10, -1000, 1000, 123)
-    Tree.pickBestNodeForRemoveForMaximizeWeight(testTree).map(_.index) shouldBe Some(8)
+    val testTree = Tree.fillWithRandomInts(10, -1000, 1000, 124)
+    Tree.pickBestNodeForRemoveForMaximizeWeight(testTree).map(_.index) shouldBe Some(2)
   }
 
   test("Node.pickBestNodeForRemoveForMaximizeWeight should returns None for positive element tree") {
@@ -24,10 +24,10 @@ class TreeSpec extends FunSuite with Matchers {
   test("iterator should returns correct tree iterator") {
     val root = Tree.fillWithRandomInts(4, -1000, 1000, 321)
     val elements = root.iterator.toList
-    elements(0) == Node(2, -966) shouldBe true
-    elements(1) == Node(1, -962, left = Node(2, -966), right = Node(3, -277, left = Node(4, -552))) shouldBe true
-    elements(2) == Node(4, -552) shouldBe true
-    elements(3) == Node(3, -277, left = Node(4, -552)) shouldBe true
+    elements(0) == Node(1, -962, left = Node(2, -966), right = Node(3, -277, left = Node(4, -552))) shouldBe true
+    elements(1) == Node(2, -966) shouldBe true
+    elements(2) == Node(3, -277, left = Node(4, -552)) shouldBe true
+    elements(3) == Node(4, -552) shouldBe true
     elements.size shouldBe 4
   }
 
@@ -53,7 +53,7 @@ class TreeSpec extends FunSuite with Matchers {
   test("result removeNode in depth should works correct") {
     val tree = Tree.fillWithRandomInts(4, -1000, 1000, 123)
     val nodes = tree.iterator.toSeq
-    val removed = nodes(3)
+    val removed = nodes(2)
     val afterRemove = tree removeNode removed
     afterRemove == Node(1, -332, left = Nil, right = Node(2, -161)) shouldBe true
   }
@@ -69,11 +69,8 @@ class TreeSpec extends FunSuite with Matchers {
     val tree = Tree.fillWithRandomInts(100, -1000, 1000, 5221)
     val (trimmed, removed) = Tree.trimTree(tree, 3)
     val a = Node(19, -895, right = Node(26, -823, left = Node(85, -853), right = Node(65, -813)))
-    println(a.toString())
-    removed.size shouldBe 3
-    removed(0) == Node(100, -967) shouldBe true
-    removed(1) == Node(36, -964, right = Node(54, -961, right = Node(86, -958))) shouldBe true
-    removed(2) == Node(19, -894, right = Node(26, -823, left = Node(85, -853), right = Node(65, -813))) shouldBe true
+    removed.size shouldBe 1
+    removed(0).index should be(4)
   }
 
 }

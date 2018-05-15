@@ -1,4 +1,4 @@
-name := "scala-binary_district"
+name := "scala-school-2018-2"
 
 version := "1.0"
 
@@ -10,6 +10,7 @@ libraryDependencies ++=  Seq(
   "com.storm-enroute" %% "scalameter" % "0.9" % "test" excludeAll ExclusionRule(organization = "org.mongodb"),
   "com.typesafe.akka" %% "akka-actor" % "2.5.11",
   "com.typesafe.akka" % "akka-stream_2.12" % "2.5.11",
+  "com.typesafe.akka" %% "akka-slf4j" % "2.5.11",
   "com.typesafe.akka" %% "akka-testkit" % "2.5.11" % "test",
   "com.typesafe.akka" %% "akka-http" % "10.1.0",
   "com.typesafe.akka" %% "akka-http-testkit" % "10.1.0" % "test",
@@ -24,7 +25,8 @@ libraryDependencies ++=  Seq(
   "ch.qos.logback" % "logback-classic" % "1.2.1",
   "com.typesafe.play" %% "anorm" % "2.5.3",
   "org.mongodb" %% "casbah" % "3.1.1",
-  "com.github.salat" %% "salat" % "1.11.2"
+  "com.github.salat" %% "salat" % "1.11.2",
+  "org.scala-lang.modules" %% "scala-async" % "0.9.7"
 )
 
 testFrameworks += new TestFramework("org.scalameter.ScalaMeterFramework")
