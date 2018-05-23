@@ -29,6 +29,15 @@ case class BlockChain private(blocks: ListMap[String, Block] = ListMap.empty) ex
     }
   }
 
+  def isValid: Boolean = {
+    require(head.parentId.isEmpty)
+    val bc = BlockChain().append(head).get
+    tail.foldLeft[Try[BlockChain]](Success(bc)) {
+      case (Success(bc), b) => bc.append(b)
+      case (res, _) => res
+    }.isSuccess
+  }
+
   override def iterator: Iterator[Block] = blocks.valuesIterator
 
   override def toString: String = s"BlockChain [height: $height, score: $score]:" + iterator.mkString("\n\t", "\n\t", "\n")

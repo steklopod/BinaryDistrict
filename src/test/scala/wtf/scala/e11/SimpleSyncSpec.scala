@@ -22,6 +22,8 @@ class SimpleSyncSpec extends TestKit(ActorSystem("BlockChainNodeSpec")) with Imp
       val nodeWithNewBlock = system.actorOf(BlockChainNodeActor.props(blockChainWithNewBlock, Seq.empty))
       val node = system.actorOf(BlockChainNodeActor.props(blockChainWithOnlyGenesis, Seq(nodeWithNewBlock)))
 
+      expectNoMessage(5.second)
+
       node ! GetBlockChain
 
       expectMsg(blockChainWithNewBlock)
@@ -36,7 +38,7 @@ class SimpleSyncSpec extends TestKit(ActorSystem("BlockChainNodeSpec")) with Imp
 
       node ! ConnectTo(nodeWithNewBlock)
 
-      expectNoMessage(1.second)
+      expectNoMessage(5.second)
 
       node ! GetBlockChain
       expectMsg(blockChainWithNewBlock)
@@ -51,7 +53,7 @@ class SimpleSyncSpec extends TestKit(ActorSystem("BlockChainNodeSpec")) with Imp
 
       nodeWithNewBlock ! ConnectTo(node)
 
-      expectNoMessage(1.second)
+      expectNoMessage(5.second)
 
       node ! GetBlockChain
       expectMsg(blockChainWithNewBlock)
@@ -76,7 +78,7 @@ class SimpleSyncSpec extends TestKit(ActorSystem("BlockChainNodeSpec")) with Imp
 
       nodeWithNewBlock1 ! ConnectTo(nodeWithNewBlock2)
 
-      expectNoMessage(1.second)
+      expectNoMessage(5.second)
 
       nodeWithNewBlock1 ! GetBlockChain
       expectMsg(bestChain)
@@ -96,13 +98,13 @@ class SimpleSyncSpec extends TestKit(ActorSystem("BlockChainNodeSpec")) with Imp
       val nodesWithDifferentBlockChains = allForks.map(bc =>
         system.actorOf(BlockChainNodeActor.props(bc, Seq.empty)))
 
-      val node = system.actorOf(BlockChainNodeActor.props(blockChainWithOnlyGenesis, Seq.empty))
+      val starCenterNode = system.actorOf(BlockChainNodeActor.props(blockChainWithOnlyGenesis, Seq.empty))
 
-      nodesWithDifferentBlockChains.foreach(node => node ! ConnectTo(node))
+      nodesWithDifferentBlockChains.foreach(node => node ! ConnectTo(starCenterNode))
 
-      expectNoMessage(1.second)
+      expectNoMessage(10.second)
 
-      val allNodes = node +: nodesWithDifferentBlockChains
+      val allNodes = starCenterNode +: nodesWithDifferentBlockChains
 
       allNodes.foreach(node => {
         node ! GetBlockChain
@@ -129,7 +131,7 @@ class SimpleSyncSpec extends TestKit(ActorSystem("BlockChainNodeSpec")) with Imp
         case Seq(from, to) => from ! ConnectTo(to)
       }
 
-      expectNoMessage(1.second)
+      expectNoMessage(20.second)
 
       allNodes.foreach(node => {
         node ! GetBlockChain

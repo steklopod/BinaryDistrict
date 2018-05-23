@@ -17,7 +17,7 @@ class DominoSpec extends FunSuite with Matchers {
   val CircleStock = Stock(Tile(1, 2), Tile(2, 4), Tile(4, 5), Tile(1, 5))
   val CircleStockWithDouble = Stock(Tile(1, 2), Tile(2, 2), Tile(2, 4), Tile(4, 5), Tile(1, 5))
 
-  test("should find doubles in stock") {
+  test("Should find doubles in stock") {
       val doubles = NonConnectableStock.getDoubles
       doubles should contain only(4)
   }
@@ -39,8 +39,8 @@ class DominoSpec extends FunSuite with Matchers {
   test("Should count maximum endings number") {
     CrossStock.getMaxEndingsNumber should equal(4)
     // it is quite difficult, you can uncomment it if you are ready
-    CrossAndHalfCrossStock.getMaxEndingsNumber should equal(6)
-    DoubleCrossStock.getMaxEndingsNumber should equal(6)
+    //CrossAndHalfCrossStock.getMaxEndingsNumber should equal(6)
+    //DoubleCrossStock.getMaxEndingsNumber should equal(6)
     LineStock.getMaxEndingsNumber should equal(2)
   }
 
@@ -58,7 +58,7 @@ class DominoSpec extends FunSuite with Matchers {
     CircleStockWithDouble.isConnectable should be(true)
   }
 
-  test("should check if stock can be line connected") {
+  test("Should check if stock can be line connected") {
     NonConnectableStockWithDouble.isLineConnectable should be(false)
 
     CrossStock.isLineConnectable should be(false)
