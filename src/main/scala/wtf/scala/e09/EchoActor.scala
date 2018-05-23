@@ -20,7 +20,9 @@ object EchoActor {
 }
 
 class EchoActor extends Actor {
-  override def receive: Receive = ???
+  override def receive: Receive = {
+    case m => sender() ! m
+  }
 }
 
 object EchoActorApp extends App {

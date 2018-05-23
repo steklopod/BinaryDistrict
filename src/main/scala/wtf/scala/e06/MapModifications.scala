@@ -8,7 +8,7 @@ object MapModifications {
     * @param m
     * @return
     */
-  def power(m: Map[Int, Int]): Map[(Int, Int), Int] = ???
+  def power(m: Map[Int, Int]): Map[(Int, Int), Int] = m.map(p => p -> math.pow(p._1, p._2).toInt)
 
   /**
     * Construct new map where keys are unique values from original map
@@ -16,7 +16,8 @@ object MapModifications {
     * @param m
     * @return
     */
-  def revert(m: Map[Int, Int]): Map[Int, Set[Int]] = ???
-
+  def revert(m: Map[Int, Int]): Map[Int, Set[Int]] = m.map {
+    case (k, v) => v -> m.filter(_._2 == v).keySet
+  }
 
 }

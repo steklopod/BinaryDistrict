@@ -23,23 +23,18 @@ object JapaneseCandles {
     * @param intervalMillis - a period in millisecond, defining the candles' "width"
     * @return a sequence of candle charts based on timed values provided
     */
-  /*
-    FIXME: this code contains errors intentionally for the sake of unit tests coverage study.
-    HINT: there's something fishy about grouping by timestamp, and the close/low calculation,
-    and the order of the candles returned.
-  */
   def buildCandles[T](timedValues: Iterable[T], intervalMillis: Long)(implicit convert: T => TimedValue): List[Candle] =
     timedValues.groupBy { value =>
-      value.timestamp % intervalMillis
+      value.timestamp - (value.timestamp % intervalMillis)
     }.map { case (periodStartTimestamp, periodTimedValues) =>
       Candle(
         periodStart = periodStartTimestamp,
         open  = periodTimedValues.head.value,
         high  = periodTimedValues.maxBy(_.value).value,
-        low   = periodTimedValues.maxBy(_.value).value,
-        close = periodTimedValues.head.value
+        low   = periodTimedValues.minBy(_.value).value,
+        close = periodTimedValues.last.value
       )
-    }.toList
+    }.toList.sortBy(_.periodStart)
 
 }
 

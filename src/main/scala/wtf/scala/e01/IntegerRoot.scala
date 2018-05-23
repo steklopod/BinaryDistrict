@@ -12,12 +12,8 @@ object IntegerRoot {
     */
   @throws[IllegalArgumentException]
   def calculateRoot(x: Int): Int = {
-    require(x >= 0, "Значение должно быть больше 0")
-    (0 to x).find(y => y*y == x).getOrElse(-1)
-
-    // Второй вариант
-    //    (0 to x).filter(y => y*y == x).headOption.getOrElse(-1)
-
+    require(x >= 0)
+    (0 to x / 2).find(y => y * y == x).getOrElse(-1)
   }
 
 }

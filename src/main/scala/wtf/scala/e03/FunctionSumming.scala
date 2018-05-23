@@ -13,6 +13,12 @@ object FunctionSumming {
     * @param b - right bound of segment
     * @return
     */
-  def sumFunction(f: Int => Double)(a: Int, b: Int): Double = ???
+  def sumFunction(f: Int => Double)(a: Int, b: Int): Double = {
+    if (a == b) {
+      f(a)
+    } else {
+      f (a) + sumFunction(f)(a + 1, b)
+    }
+  }
 
 }

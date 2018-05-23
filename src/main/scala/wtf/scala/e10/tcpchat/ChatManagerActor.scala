@@ -9,7 +9,7 @@ object ChatManagerActor {
   sealed trait ChatMessage
 
   case class Message(chat: String, nickname: String, msg: String) extends ChatMessage {
-    override def toString: String = s"$chat:$nickname:$msg"
+    override def toString: String = s"$chat:$nickname:$msg\n"
     def toMessageString: String = s"send:$chat:$msg\n"
   }
   case class EnterChat(chat: String, nickname: String) extends ChatMessage
@@ -30,7 +30,7 @@ class ChatManagerActor extends Actor with ActorLogging {
 
   private def findOrCreateChat(chat: String): ActorRef = {
     // todo find child chat actor with that name or create it
-    ???
+    context.child(chat).getOrElse(context.actorOf(ChatActor.props, chat))
   }
 
   override def receive: Receive = {

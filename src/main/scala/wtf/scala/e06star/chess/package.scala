@@ -23,8 +23,8 @@ package object chess {
       this(pieces, ChessBoardState.generateSafeCellsSet(problem, pieces))
     }
 
-    // todo return set of safe points of the field after placing given piece on this position
-    def getSafePointsAfterPutPiece(newChessPiecePosition: ChessPiecePosition): Set[Point] = ???
+    def getSafePointsAfterPutPiece(newChessPiecePosition: ChessPiecePosition): Set[Point] =
+      (safeCells - newChessPiecePosition.p).filter(p => !newChessPiecePosition.piece.canHit(newChessPiecePosition.p.x, newChessPiecePosition.p.y, p.x, p.y))
   }
 
   trait PositionGenerator extends (ChessProblem => Iterator[Set[ChessPiecePosition]])

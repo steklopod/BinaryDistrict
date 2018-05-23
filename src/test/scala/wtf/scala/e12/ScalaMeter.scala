@@ -1,6 +1,8 @@
 package wtf.scala.e12
 
 import org.scalameter.{Bench, Gen}
+import scala.util.Random.shuffle
+import wtf.scala.e12.Median._
 
 /**
   * This benchmark is intended to compare three median calculation algorithms performance
@@ -22,17 +24,24 @@ import org.scalameter.{Bench, Gen}
 object ScalaMeter extends Bench.LocalTime {
 
   val sizes: Gen[Int] = Gen.range("size")(30000, 600000, 30000)
-  val arrays: Gen[Array[Int]] = ???
+  val arrays: Gen[Array[Int]] = for (sz <- sizes) yield shuffle((0 until sz).toList).toArray
 
   performance of "Median" in {
-    // Measure the 'sortingMedian'
-    ???
-
-    // Measure the 'kMedian'
-    ???
-
-    // Measure the 'medianOfMedians'
-    ???
+    measure method "sortingMedian" in {
+      using(arrays) in {
+        Median.sortingMedian
+      }
+    }
+    measure method "kMedian" in {
+      using(arrays) in {
+        Median.kMedian
+      }
+    }
+    measure method "medianOfMedians" in {
+      using(arrays) in {
+        Median.medianOfMedians
+      }
+    }
   }
 
 }

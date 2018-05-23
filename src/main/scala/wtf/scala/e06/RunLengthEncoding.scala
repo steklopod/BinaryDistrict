@@ -8,7 +8,14 @@ object RunLengthEncoding {
     * @param s
     * @return
     */
-  def pack(s: Seq[Int]): Seq[Seq[Int]] = ???
+  def pack(s: Seq[Int]): Seq[Seq[Int]] = {
+    if (s.isEmpty) {
+      Seq.empty[Seq[Int]]
+    } else {
+      val (seq, after) = s.span(_ == s.head)
+      seq +: pack(after)
+    }
+  }
 
 
   /**
@@ -17,7 +24,7 @@ object RunLengthEncoding {
     * @param s
     * @return
     */
-  def runLengthEncode(s: Seq[Int]): Seq[(Int, Int)] = ???
+  def runLengthEncode(s: Seq[Int]): Seq[(Int, Int)] = pack(s).map(c => c.head -> c.size)
 
 
   /**
@@ -25,7 +32,9 @@ object RunLengthEncoding {
     * @param encoded
     * @return
     */
-  def runLengthDecode(encoded: Seq[(Int, Int)]): Seq[Int] = ???
+  def runLengthDecode(encoded: Seq[(Int, Int)]): Seq[Int] = {
+    encoded.flatMap(e => Seq.fill(e._2)(e._1))
+  }
 
 
 }

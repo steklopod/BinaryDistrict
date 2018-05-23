@@ -7,7 +7,7 @@ class TrapezoidalRuleSpec extends FunSuite with Matchers {
   def linear(x: Double) = x
   def square(x: Double) = x * x
 
-  val epsilon = 0.0001
+  val epsilon = 0.01
 
   test("TrapezoidalRule should return zero if leftX == rightX") {
     val linearResult = TrapezoidalRule.integrate(linear, 0, 0)

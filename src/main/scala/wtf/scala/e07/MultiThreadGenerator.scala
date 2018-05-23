@@ -11,5 +11,30 @@ import scala.concurrent.{ExecutionContext, Future}
   * @param ec a thread pool in which the calculation flows are to be executed
   */
 class MultiThreadGenerator(segments: Int)(implicit ec: ExecutionContext) extends MandelbrotSetBuilder {
-  override def apply(params: MandelbrotParams): Future[Seq[Seq[Int]]] = ???
+  override def apply(params: MandelbrotParams): Future[Seq[Seq[Int]]] = {
+    import params._
+
+    val segmentHeight = params.imageHeight / segments
+
+    val fs = for {
+      segment <- 1 to segments
+    } yield {
+      Future {
+        (segment, for {
+          y0 <- ((segment - 1) * segmentHeight) to (segment * segmentHeight)
+        } yield {
+          for {
+            x0 <- 0 until imageWidth
+          } yield {
+            val xToCheck = xMin + x0 * xStep
+            val yToCheck = yMin + y0 * yStep
+            val complexValueToCheck = Complex(xToCheck, yToCheck)
+            calculateMandelbrotElement(complexValueToCheck, maxIterations = params.maxIterations)
+          }
+        })
+      }
+    }
+
+    Future.sequence(fs).map(_.sortBy(_._1).flatMap(_._2))
+  }
 }

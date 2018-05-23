@@ -30,26 +30,14 @@ object FileStatistics {
       line <- Source.fromResource(fileName).getLines().toSeq
       int <- parseIntOpt(line)
     } yield int
-
-    //    val ints = Source
-    //      .fromResource(fileName)
-    //      .getLines()
-    //      .map(parseIntOpt)
-    //      .filter(_.isDefined)
-    //      .map(_.get)
-    //      .toSeq
-
     require(ints.nonEmpty)
-
     val avg = ints.sum.toDouble / ints.length
     val variance = 1d / ints.length * ints.map(i => math.pow(i - avg, 2)).sum
-
     Statistics(avg, variance)
   }
 
   /**
     * Parse String into Int
-    *
     * @param str string to parse
     * @return Some[Int] if string can be parsed into Int, None otherwise
     */

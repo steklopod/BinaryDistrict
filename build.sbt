@@ -4,7 +4,7 @@ version := "1.0"
 
 scalaVersion := "2.12.4"
 
-libraryDependencies ++= Seq(
+libraryDependencies ++=  Seq(
   "org.scalatest" %% "scalatest" % "3.0.5" % "test",
   "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
   "com.storm-enroute" %% "scalameter" % "0.9" % "test" excludeAll ExclusionRule(organization = "org.mongodb"),
@@ -26,9 +26,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "anorm" % "2.5.3",
   "org.mongodb" %% "casbah" % "3.1.1",
   "com.github.salat" %% "salat" % "1.11.2",
-  "org.scala-lang.modules" %% "scala-async" % "0.9.7",
-  "com.github.fakemongo" % "fongo" % "2.1.0",
-  "com.h2database" % "h2" % "1.4.197" % Test
+  "org.scala-lang.modules" %% "scala-async" % "0.9.7"
 )
 
 testFrameworks += new TestFramework("org.scalameter.ScalaMeterFramework")

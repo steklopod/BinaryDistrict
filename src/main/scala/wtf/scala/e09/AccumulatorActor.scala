@@ -21,7 +21,12 @@ object AccumulatorActor {
 }
 
 class AccumulatorActor extends Actor {
-  override def receive: Receive = ???
+  private var value: Int = 0
+  override def receive: Receive = {
+    case Set(v) => value = v
+    case Add(v) => value += v
+    case Get => sender() ! value
+  }
 }
 
 object AccumulatorActorApp extends App {

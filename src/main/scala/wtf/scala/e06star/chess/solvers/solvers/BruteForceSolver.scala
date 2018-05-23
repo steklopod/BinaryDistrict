@@ -7,5 +7,5 @@ class BruteForceSolver(positionChecker: PositionChecker) extends ChessProblemSol
   val allPositionGenerator = new AllPositionsGenerator()
 
   // iterating over all possible positions and filter only safe
-  override def apply(problem: ChessProblem): Iterator[Set[ChessPiecePosition]] = allPositionGenerator(problem).filter(positionChecker)
+  override def apply(problem: ChessProblem): Iterator[Set[ChessPiecePosition]] = allPositionGenerator(problem).grouped(1000000).flatMap(_.par.filter(positionChecker))
 }

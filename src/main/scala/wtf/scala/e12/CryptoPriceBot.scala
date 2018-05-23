@@ -1,7 +1,6 @@
 package wtf.scala.e12
 
 import akka.actor.Actor
-
 import scala.util.Random
 
 case object UnknownStock
@@ -24,14 +23,20 @@ class CryptoPriceBot(val currencies: List[String]) extends Actor {
 
   require(currencies.size > 1, "Currencies count must be at least 2")
 
+  private val currencyIterator: Iterator[String] = Iterator.continually(currencies).flatten
+
   private def generateStockPrice(currency: String)
     = StockPrice(currency, new Random().nextDouble())
 
-  // FIXME: This code doesn't behave as it should by the spec intentionally. It's up to you
-  // FIXME: to cover it with unit tests according to the CryptoPriceBot scala-doc and fix.
   override def receive: Receive = {
-    case currency: String => sender() ! generateStockPrice(currencies.head)
-    case AnyStock => sender() ! generateStockPrice(currencies.head)
+    case currency: String =>
+      if (currencies.contains(currency)) {
+        sender() ! generateStockPrice(currencies.head)
+      } else {
+        sender() ! UnknownStock
+      }
+
+    case AnyStock => sender() ! generateStockPrice(currencyIterator.next())
   }
 
 }
