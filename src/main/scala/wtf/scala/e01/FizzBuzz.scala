@@ -15,13 +15,7 @@ object FizzBuzz {
     */
   @throws[IllegalArgumentException]
   private[e01] def fizzBuzzUntil(n: Int): Seq[String] = {
-    require(n > 0, "Oops... n < 1")
-    (0 until n) map {
-      case n if n % 15 == 0 => "fizzbuzz"
-      case n if n % 5 == 0 => "buzz"
-      case n if n % 3 == 0 => "fizz"
-      case n => n.toString
-    }
+    ???
   }
 
   def main(args: Array[String]): Unit = {
