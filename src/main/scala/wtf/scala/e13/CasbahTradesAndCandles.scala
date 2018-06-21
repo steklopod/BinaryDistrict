@@ -1,7 +1,9 @@
 package wtf.scala.e13
 
 import com.mongodb.DBObject
+import com.mongodb.casbah.Imports.MongoDBObject
 import com.mongodb.casbah.MongoCollection
+import com.mongodb.casbah.commons.MongoDBList
 import wtf.scala.e12.{Candle, Trade}
 
 /**
@@ -31,7 +33,10 @@ object CasbahTradesAndCandles {
     /**
       * Maps a Mongo DB object to a [[Trade]] instance
       */
-    def apply(obj: DBObject): Trade = ???
+    def apply(obj: DBObject): Trade = Trade(
+      time  = obj.get("timestamp").asInstanceOf[Long],
+      price = obj.get("price").asInstanceOf[Double]
+    )
   }
 
   def dropTradesCollection(implicit tradesCollection: MongoCollection): Unit = {
@@ -39,7 +44,12 @@ object CasbahTradesAndCandles {
   }
 
   def insertTrades(trades: List[Trade])(implicit tradesCollection: MongoCollection): Unit = {
-    ???
+    tradesCollection.insert(trades.map { trade =>
+      MongoDBObject(
+        "timestamp" -> trade.time,
+        "price"     -> trade.price
+      )
+    }:_*)
   }
 
   /**
@@ -50,7 +60,38 @@ object CasbahTradesAndCandles {
     */
   def aggregateCandles(startTimestamp: Long, endTimestamp: Long, interval: Long)
     (implicit tradesCollection: MongoCollection): List[Candle] = {
-      ???
-  }
+    tradesCollection.aggregate(List(
+      MongoDBObject("$match" -> MongoDBObject("timestamp" -> MongoDBObject(
+        "$gte" -> startTimestamp,
+        "$lte" -> endTimestamp
+      ))),
+      MongoDBObject("$group" -> MongoDBObject(
+        "_id" -> MongoDBObject(
+          "intervalStart" -> MongoDBObject(
+            "$subtract" -> MongoDBList(
+              "$timestamp",
+              MongoDBObject(
+                "$mod" -> MongoDBList(
+                  "$timestamp",
+                  interval
+                )
+              )
+            )
+          )
+        ),
+        "open"  -> MongoDBObject("$first" -> "$price"),
+        "high"  -> MongoDBObject("$max"   -> "$price"),
+        "close" -> MongoDBObject("$last"  -> "$price"),
+        "low"   -> MongoDBObject("$min"   -> "$price")))
+    )).results.map { result =>
+      Candle(
+        periodStart = result.get("_id").asInstanceOf[DBObject].get("intervalStart").asInstanceOf[Long],
+        open  = result.get("open").asInstanceOf[Double],
+        high  = result.get("high").asInstanceOf[Double],
+        low   = result.get("low").asInstanceOf[Double],
+        close = result.get("close").asInstanceOf[Double]
+      )
+    }
+  }.toList.sortBy(_.periodStart)
 
 }

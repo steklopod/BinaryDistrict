@@ -54,21 +54,22 @@ class CasbahCandlesSpec extends org.scalatest.fixture.FlatSpec with Matchers {
     tradesCollection.toList.map(CasbahTradesAndCandles.TradeMapper(_)) should equal (mockTrades)
   }
 
-  it should "return 2 candles (based on 9 3m-interval trades)" in { implicit tradesCollection =>
+  // todo it works only with a real mongodb
+  ignore should "return 2 candles (based on 9 3m-interval trades)" in { implicit tradesCollection =>
     val startTs = mockTrades.head.timestamp
     val endTs   = mockTrades.last.timestamp
     val candles = CasbahTradesAndCandles.aggregateCandles(startTs, endTs, MillisIn15Minutes)
     candles.size should equal(2)
   }
 
-  it should "return candles sorted by period start" in { implicit tradesCollection =>
+  ignore should "return candles sorted by period start" in { implicit tradesCollection =>
     val startTs = mockTrades.head.timestamp
     val endTs   = mockTrades.last.timestamp
     val candles = CasbahTradesAndCandles.aggregateCandles(startTs, endTs, MillisIn15Minutes)
     candles.map(_.periodStart) shouldBe sorted
   }
 
-  it should "return candles with period start timestamps dividable by 15m in millis, " +
+  ignore should "return candles with period start timestamps dividable by 15m in millis, " +
       "and within the timestamps of the trades" in { implicit tradesCollection =>
     val startTs = mockTrades.head.timestamp
     val endTs   = mockTrades.last.timestamp
@@ -80,7 +81,7 @@ class CasbahCandlesSpec extends org.scalatest.fixture.FlatSpec with Matchers {
     candlesPeriodStarts.forall(tradesTimeRange.contains(_)) shouldBe true
   }
 
-  it should "return the candles with correct OHLC values" in { implicit tradesCollection =>
+  ignore should "return the candles with correct OHLC values" in { implicit tradesCollection =>
     val startTs = mockTrades.head.timestamp
     val endTs   = mockTrades.last.timestamp
 
