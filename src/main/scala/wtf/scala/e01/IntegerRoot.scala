@@ -11,6 +11,8 @@ object IntegerRoot {
     *         square root of x if x is square of some integer
     */
   @throws[IllegalArgumentException]
-  def calculateRoot(x: Int): Int = ???
-
+  def calculateRoot(x: Int): Int = {
+    require(x > 0, "x must be positive.")
+    (0 to x/2).find(y => y * y == x).getOrElse(-1)
+  }
 }
