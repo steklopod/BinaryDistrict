@@ -13,6 +13,7 @@ class TrapezoidalRuleSpec extends FunSuite with Matchers {
     val linearResult = TrapezoidalRule.integrate(linear, 0, 0)
     linearResult should equal(0)
 
+
     val squareResult = TrapezoidalRule.integrate(square, 0, 0)
     squareResult should equal(0)
   }
@@ -26,5 +27,4 @@ class TrapezoidalRuleSpec extends FunSuite with Matchers {
     val result = TrapezoidalRule.integrate(square, 0, 1)
     result should equal(0.3333 +- epsilon)
   }
-
 }

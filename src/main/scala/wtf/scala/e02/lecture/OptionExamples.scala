@@ -9,7 +9,6 @@ object OptionExamples {
   val absentMessage: Option[String] = Option(null) // None
 
 
-
   object OptionForComprehensions {
     val nameOpt = Some("Ivan")
     val lastNameOpt = Some("Petrov")
@@ -26,14 +25,4 @@ object OptionExamples {
     } // Some("IvanPetrov")
   }
 
-
 }
-
-
-
-
-
-
-
-
-

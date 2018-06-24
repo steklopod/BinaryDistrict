@@ -1,6 +1,7 @@
 package wtf.scala.e02
 
-import scala.util.Try
+import scala.io.Source
+import scala.util.{Failure, Try}
 
 object FileStatistics {
 
@@ -25,14 +26,21 @@ object FileStatistics {
     * @return Try of object with numbers' statistics
     */
   def calculateStatistics(fileName: String): Try[Statistics] = {
-    ???
+    val ints = for {
+      line <- Source.fromResource(fileName).getLines().toSeq
+      int <- parseIntOpt(line)
+    } yield int
+    require(ints.nonEmpty)
+    val avg = ints.sum.toDouble / ints.length
+    val variance = 1d / ints.length * ints.map(i => math.pow(i - avg, 2)).sum
+    Try(Statistics(avg, variance)) //TODO - return None
   }
 
   /**
     * Parse String into Int
+    *
     * @param str string to parse
     * @return Some[Int] if string can be parsed into Int, None otherwise
     */
-  def parseIntOpt(str: String): Option[Int] = ???
-
+  def parseIntOpt(str: String): Option[Int] = Try(str.toInt).toOption
 }

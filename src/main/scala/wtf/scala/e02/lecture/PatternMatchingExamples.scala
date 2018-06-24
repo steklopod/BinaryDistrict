@@ -72,6 +72,7 @@ object PatternMatchingExamples {
   object Twice {
     def unapply(num: Int): Option[Int] = if (num % 2 == 0) Some(num/2) else None
   }
+
   object TwiceExample extends App {
     val x = 34
     x match {

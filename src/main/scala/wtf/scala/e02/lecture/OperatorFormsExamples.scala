@@ -19,15 +19,16 @@ object OperatorFormsExamples {
   }
 
   case class Infix(num: Int) {
-    def +(that: Infix) = Infix(this.num + that.num)
-    def add(that: Infix) = Infix(this.num + that.num)
-    def *(that: Infix) = Infix(this.num * that.num)
+    def +   (that: Infix) = Infix(this.num + that.num)
+    def add (that: Infix) = Infix(this.num + that.num)
+
+    def *   (that: Infix) = Infix(this.num * that.num)
     def mult(that: Infix) = Infix(this.num * that.num)
   }
 
   object Infix {
     val a = Infix(1) add Infix(2) mult Infix(3) // Infix(9)
-    val b = Infix(1) + Infix(2) * Infix(3) // Infix(7)
+    val b = Infix(1)  +  Infix(2)  *   Infix(3) // Infix(7)
   }
 
   case class InfixRight(num: Int) {
