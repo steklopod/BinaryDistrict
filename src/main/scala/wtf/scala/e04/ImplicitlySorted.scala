@@ -12,7 +12,7 @@ object SortedList {
     * @tparam T type for sorting
     * @return sorted list
     */
-  implicit def list2sorted[T](list: List[T])(implicit ordered: Ordering[T]): SortedList[T] = ???
+  implicit def list2sorted[T](list: List[T])(implicit ordered: Ordering[T]): SortedList[T] = SortedList(list.sorted)
 }
 
 case class SortedList[T](list: List[T])(implicit ordered: Ordering[T]) {
@@ -24,6 +24,7 @@ object ImplicitlySorted extends App {
 
   printSortedList(List(3, 2, 1))
   printSortedList(List("3", "2", "1"))
-  // todo make this works also
-  // printSortedList(List(SortMe("abc", BigDecimal(1)), SortMe("abc", BigDecimal(3)), SortMe("bac", BigDecimal(1))))
+
+  implicit val sortMeOrdering: Ordering[SortMe] = Ordering.by(o => o.first -> o.second)
+   printSortedList(List(SortMe("abc", BigDecimal(1)), SortMe("abc", BigDecimal(3)), SortMe("bac", BigDecimal(1))))
 }

@@ -19,6 +19,8 @@ object CallBy extends App {
   }
 
   callByValue(randomJoke())
-  println()
+
+  println("--------------")
+
   callByName(randomJoke())
 }

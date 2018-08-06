@@ -27,14 +27,33 @@ object Tree {
     * @param maxRemoveOperations максимальное количество операций удаления
     * @return дерево после стрижки и удаленные вершины
     */
-  def trimTree(tree: Tree[Int], maxRemoveOperations: Int): (Tree[Int], Seq[Node[Int]]) = ???
+  def trimTree(tree: Tree[Int], maxRemoveOperations: Int): (Tree[Int], Seq[Node[Int]]) = {
+    (0 until maxRemoveOperations).foldLeft((tree, Seq.empty[Node[Int]])) { case (current@(currentTree, currentRemoved), _) =>
+      pickBestNodeForRemoveForMaximizeWeight(currentTree) match {
+        case Some(toRemove) =>
+          val currentTreeNode = currentTree.asInstanceOf[Node[Int]]
+          (currentTreeNode.removeNode(toRemove), toRemove +: currentRemoved)
+        case None => current
+      }
+    }
+  }
 
   /**
     * Возвращает лучшую вершину для удаления, ведущую к максимальному увеличению веса дерева
     * @param root дерево
     * @return опционально возвращает ноду для удаления
     */
-  def pickBestNodeForRemoveForMaximizeWeight[T](root: Tree[T])(implicit num: Numeric[T]): Option[Node[T]] = ???
+  def pickBestNodeForRemoveForMaximizeWeight[T](root: Tree[T])(implicit num: Numeric[T]): Option[Node[T]] = {
+    tree2nodeOption(root).flatMap(rootNode => {
+      val f = rootNode.iterator.toList.map(e => e -> rootNode.removeNode(e).weight)
+      val maxAfterRemove = rootNode.iterator.maxBy(e => rootNode.removeNode(e).weight)
+      if (rootNode.weight > rootNode.removeNode(maxAfterRemove).weight) {
+        None
+      } else {
+        Some(maxAfterRemove)
+      }
+    })
+  }
 
   def apply[T](el: T)(implicit num: Numeric[T]): Tree[T] = Node(el)
 
@@ -136,7 +155,9 @@ case class Node[+T] private[tree](index: Index,
   /**
     * @return Вовзращает итератор прохода дерева в глубину слева направо (depth-first search)
     */
-  override def iterator: Iterator[Node[T]] = ???
+  override def iterator: Iterator[Node[T]] = {
+    Iterator.single(this) ++ left.iterator ++ right.iterator
+  }
 
   override def toString(): String = {
     s"Node[$index] = $value Left: [$left], Right: [$right]"

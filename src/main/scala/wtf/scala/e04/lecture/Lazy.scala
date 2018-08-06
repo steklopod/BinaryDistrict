@@ -6,6 +6,6 @@ object Lazy extends App {
     1
   }
   println("start")
-//  println(soooLazy)
-//  println(soooLazy)
+  println(soooLazy)
+  println(soooLazy)
 }
