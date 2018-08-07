@@ -9,7 +9,7 @@ object MapExample extends App {
   map.get(1) // Some("a")
   map.get(5) // None
   map(1) // a
-  map(5) // java.util.NoSuchElementException: key not found: 5
+//  map(5) // java.util.NoSuchElementException: key not found: 5
   map.getOrElse(5, "d") // d
   map.contains(1) // true
   map.contains(5) // false

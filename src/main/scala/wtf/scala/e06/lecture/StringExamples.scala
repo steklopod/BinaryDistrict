@@ -24,7 +24,6 @@ object StringExamples extends App {
   builder(2)
   builder.toString
 
-
   "scala".stripPrefix("sca")
 
   val b = new StringBuilder("java")

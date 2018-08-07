@@ -4,7 +4,6 @@ import scala.collection.mutable.ArrayBuffer
 
 object SeqExample extends App {
 
-
   List(3, 5, 1, 8, 2).sorted
   List("cf", "a", "c", "be").sorted
 
@@ -14,11 +13,11 @@ object SeqExample extends App {
 
   List(3, 5, 1, 8, 2).sortBy(_ > 3)
 
-
   List(3, 5, 1, 8, 2).reverse
-  List(3, 5, 1, 8, 2).reverseIterator
-  List(3, 5, 1, 8, 2).reverseMap(_ + 1)
 
+  List(3, 5, 1, 8, 2).reverseIterator
+
+  List(3, 5, 1, 8, 2).reverseMap(_ + 1)
 
   val buf = new ArrayBuffer[Int]()
 
@@ -51,7 +50,5 @@ object SeqExample extends App {
   queue += "a"
   queue ++= List("b", "c")
   queue.dequeue
-
-
 
 }
